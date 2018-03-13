@@ -1,4 +1,4 @@
-global L w d g n p E ;
+global L w d g n p E;
 L = 2;
 w = 0.3;
 d = 0.03;
@@ -7,6 +7,7 @@ n = 10;
 p = 480;
 E = 1.3e+10;
 
+I = w*d*d*d/12;
 h = L/n;
 
 
@@ -14,6 +15,8 @@ h = L/n;
 sm = structuremat(n);
 f = beamforces(@gravity,n,L/n);
 def = cat(1, [0], (sm\f));
+def = def*h*h*h*h/E/I;
+disp("Problem 1:");
 disp(def);
 
 %Problem 2
