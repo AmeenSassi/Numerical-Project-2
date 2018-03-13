@@ -1,5 +1,5 @@
 function mat = structuremat(n)
-    mat = zeros(n,n);
+    mat = sparse(n,n);
     mat(1,1) = 16;
     mat(1,2) = -9;
     mat(1,3) = 8/3;
