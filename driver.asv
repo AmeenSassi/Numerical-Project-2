@@ -21,9 +21,10 @@ disp(def);
 
 %Problem 2
 plot(0:h:L, def); hold on
-disp("Problem 2:");
+f = gravity(0);
+dis("Problem 2:");
 disp(def);
-ezplot(@dis, [0 L]);
+ezplot(@dis, );
 
 function out = gravity(x)
     global w d g p;
@@ -31,7 +32,3 @@ function out = gravity(x)
 end
 
 function out = dis(x)
-    global E I L;
-    f = gravity(0);
-    out = (f/(24*E*I))*(x*x)*((x*x)-(4*L*x)+(6*(L*L)));
-end
