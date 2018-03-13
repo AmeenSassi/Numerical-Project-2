@@ -1,7 +1,7 @@
 function out = correctsin(x)
     global L w d g p E I;
     grav = p*w*d*g;
-    %TODO: divide grav by 24EI
+    
     out = grav/24/E/I;
     out = out * x*x;
     out = out * (x*x - 4*L*x + 6*L*L);
