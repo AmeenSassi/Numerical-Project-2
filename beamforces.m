@@ -1,8 +1,8 @@
 function force = beamforces(func, count, step)
-    force = zeros(1,count);
+    force = zeros(count,1);
     position = 0;
     for i = 1:count
-       force(1,i) = func(position); 
+       force(i,1) = func(position); 
        position = position + step;
     end
 end
