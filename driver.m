@@ -1,3 +1,6 @@
+clear();
+warning('off','all');
+
 global L w d g n p E I;
 L = 2;
 w = 0.3;
@@ -10,11 +13,10 @@ E = 1.3e+10;
 I = w*d*d*d/12;
 h = L/n;
 
-
 %Problem 1
 sm = structuremat(n);
 f = beamforces(@gravity,n,L/n);
-def = cat(1, [0], (sm\f));
+def = cat(1, [0], (sm\f));  %def = deflection at each grid point
 def = def*h*h*h*h/E/I;
 disp("Problem 1:");
 disp(def);
@@ -24,21 +26,28 @@ plot(0:h:L, def); hold on
 disp("Problem 2:");
 disp(def);
 disp("Relative Error:");
-rel = ((def(n+1)-dis(L))/def(n+1));
+rel = ((dis(L)-def(n+1))/dis(L));
 disp(rel);
 ezplot(@dis, [0 L]);
 
 
 %Problem 3
-for i=1:11
+disp("Problem 3:");
+fprintf("\tn\t|\tRelative Error\n");
+for i=0:11
     n = 10*(2^i);
+    h = L/n;
     sm = structuremat(n);
     f = beamforces(@gravity,n,L/n);
     def = cat(1, [0], (sm\f));
     def = def*h*h*h*h/E/I;
+    rel = (dis(L)-def(n+1))/dis(L);
+    fprintf("\t%d\t|\t%d\n", n, rel);
 end
-disp("Problem 3:");
-disp(def);
+
+
+%Problem 4
+
 
 
 function out = gravity(x)
