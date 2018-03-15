@@ -1,5 +1,6 @@
  clear();
 warning('off','all');
+format long;
 
 global L w d g n rho E I p mDiver;
 L = 2;
@@ -94,8 +95,9 @@ clf;
 semilogy(0:11, err); hold on
 title("Problem 5: R.E. of Sinusoidal Pile with 10*2^x Samples");
 pause;
+clf;
+loglog(hm, err);
 title("Problem 5: Comparing the log(error) vs log(h^2) ");
-plot(log(hm), log(err));
 
 
 pause;
