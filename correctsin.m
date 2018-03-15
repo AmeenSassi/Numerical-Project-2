@@ -1,6 +1,6 @@
 function out = correctsin(x)
-    global L w d g p E I;
-    grav = p*w*d*g;
+    global L w d g p E I rho;
+    grav = rho*w*d*g;
     
     out = grav/24/E/I;
     out = out * x*x;
@@ -9,6 +9,6 @@ function out = correctsin(x)
     t2 = p*g*L/E/I/pi;
     t2 = t2 * (L*L*L/pi/pi/pi*sin(pi*x/L) - x*x*x/6 + L*x*x/2 - L*L/pi/pi*x);
     
-    out = out-t2;
+    out = out+t2;
 end
 

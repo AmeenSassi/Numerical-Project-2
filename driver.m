@@ -1,14 +1,15 @@
 clear();
 warning('off','all');
 
-global L w d g n p E I;
+global L w d g n rho E I p;
 L = 2;
 w = 0.3;
 d = 0.03;
 g = -9.81;
 n = 10;
-p = 480;
+rho = 480;
 E = 1.3e+10;
+p = 200;
 
 I = w*d*d*d/12;
 h = L/n;
@@ -50,11 +51,44 @@ end
 
 
 
-function out = gravity(x)
-    global w d g p;
-    out = p*w*d*g;
+
+
+%Problem 5
+disp("Problem 5:");
+fprintf("\tn\t|\tRelative Error\n");
+for i=0:11
+    n = 10*(2^i);
+    h = L/n;
+    sm = structuremat(n);
+    f = beamforces(@pile,n,L/n);
+    def = cat(1, [0], (sm\f));
+    def = def*h*h*h*h/E/I;
+    rel = (correctsin(L)-def(n+1))/correctsin(L);
+    fprintf("\t%d\t|\t%d\n", n, rel);
 end
 
+clf;
+plot(0:h:L, def); hold on
+ezplot(@correctsin, [0 L]);
+
+
+
+
+%Helper Functions
+
+%Forces for no constant load
+function out = gravity(x)
+    global w d g rho;
+    out = rho*w*d*g;
+end
+
+%Forces for sinusoidal load
+function out = pile(x)
+    global p g L;
+    out = p*g*sin(x*pi/L) + gravity(x);
+end
+
+%Known closed-form solution given constant load
 function out = dis(x)
     global E I L;
     f = gravity(0);
