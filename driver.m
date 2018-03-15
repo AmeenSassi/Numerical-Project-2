@@ -48,8 +48,17 @@ end
 
 
 %Problem 4
-
-
+disp("Problem 4:");
+sm = structuremat(n);
+f = beamforces(@gravity,n,L/n);
+def = cat(1, [0], (sm\f));  %def = deflection at each grid point
+def = def*h*h*h*h/E/I;
+for i=0:n
+    err = zeros(n);
+    err(i) = (def(i)-correctsin(i*h))/(def(i));
+end
+disp(err);
+    
 
 
 

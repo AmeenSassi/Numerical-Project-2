@@ -9,7 +9,7 @@ g = -9.81;
 n = 10;
 rho = 480;
 E = 1.3e+10;
-p = 1;
+p = 200;
 
 I = w*d*d*d/12;
 h = L/n;
@@ -48,8 +48,15 @@ end
 
 
 %Problem 4
-
-
+disp("Problem 4:");
+sm = structuremat(n);
+f = beamforces(@gravity,n,L/n);
+def = cat(1, [0], (sm\f));  %def = deflection at each grid point
+def = def*h*h*h*h/E/I;
+for i=0:n
+    err((def(i)-correctsin(i*h))/(def(i));
+    
+    
 
 
 
@@ -63,26 +70,32 @@ for i=0:11
     f = beamforces(@pile,n,L/n);
     def = cat(1, [0], (sm\f));
     def = def*h*h*h*h/E/I;
-    rel = (dis(L)-def(n+1))/dis(L);
+    rel = (correctsin(L)-def(n+1))/correctsin(L);
     fprintf("\t%d\t|\t%d\n", n, rel);
 end
+
+clf;
+plot(0:h:L, def); hold on
+ezplot(@correctsin, [0 L]);
 
 
 
 
 %Helper Functions
 
-%Function that returns forces for no extra load
+%Forces for no constant load
 function out = gravity(x)
     global w d g rho;
     out = rho*w*d*g;
 end
 
+%Forces for sinusoidal load
 function out = pile(x)
     global p g L;
-    out = p*g*sin(x*pi/L); 
+    out = p*g*sin(x*pi/L) + gravity(x);
 end
 
+%Known closed-form solution given constant load
 function out = dis(x)
     global E I L;
     f = gravity(0);
