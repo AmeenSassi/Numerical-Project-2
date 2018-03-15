@@ -14,6 +14,7 @@ p = 200;
 I = w*d*d*d/12;
 h = L/n;
 
+
 %Problem 1
 sm = structuremat(n);
 f = beamforces(@gravity,n,L/n);
@@ -22,6 +23,8 @@ def = def*h*h*h*h/E/I;
 disp("Problem 1:");
 disp(def);
 
+
+waitforbuttonpress();
 %Problem 2
 plot(0:h:L, def); hold on
 disp("Problem 2:");
@@ -32,9 +35,11 @@ disp(rel);
 ezplot(@dis, [0 L]);
 
 
+waitforbuttonpress();
 %Problem 3
 disp("Problem 3:");
 fprintf("\tn\t|\tRelative Error\n");
+rel = zeros([12]);
 for i=0:11
     n = 10*(2^i);
     h = L/n;
@@ -42,26 +47,31 @@ for i=0:11
     f = beamforces(@gravity,n,L/n);
     def = cat(1, [0], (sm\f));
     def = def*h*h*h*h/E/I;
-    rel = (dis(L)-def(n+1))/dis(L);
-    fprintf("\t%d\t|\t%d\n", n, rel);
+    rel(i+1) = (dis(L)-def(n+1))/dis(L);
+    fprintf("\t%d\t|\t%d\n", n, rel(i+1));
 end
+clf;
+plot(0:11, rel);
 
 
+waitforbuttonpress();
 %Problem 4
 disp("Problem 4:");
+n = 5120;
+h = L/n;
 sm = structuremat(n);
-f = beamforces(@gravity,n,L/n);
+f = beamforces(@correctsin,n,L/n);
 def = cat(1, [0], (sm\f));  %def = deflection at each grid point
 def = def*h*h*h*h/E/I;
-for i=0:n
-    err = zeros(n);
-    err(i) = (def(i)-correctsin(i*h))/(def(i));
+err = zeros([n+1]);
+for i=1:n+1
+    err(i) = (correctsin((i-1)*h)-def(i))/correctsin((i-1)*h);
 end
-disp(err);
+clf;
+plot(0:h:L, err); hold on
     
 
-
-
+waitforbuttonpress();
 %Problem 5
 disp("Problem 5:");
 fprintf("\tn\t|\tRelative Error\n");
