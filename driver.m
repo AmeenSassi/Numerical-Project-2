@@ -1,4 +1,4 @@
-clear();
+ clear();
 warning('off','all');
 
 global L w d g n rho E I p mDiver;
@@ -30,7 +30,7 @@ plot(0:h:L, def); hold on
 disp("Problem 2:");
 rel = ((dis(L)-def(n+1))/dis(L));
 fprintf("\tRelative Error: %d\n", rel);
-clf;
+%clf;
 ezplot(@dis, [0 L]);
 title("Problem 2: Deflection of Board");
 
@@ -38,7 +38,7 @@ title("Problem 2: Deflection of Board");
 pause;
 %Problem 3
 disp("Problem 3:");
-fprintf("\tn\t|\tRelative Error\t|\tCondition Number\n");
+fprintf("\tn\t|\tRelative Error\t|\tCondition Number\ n");
 err = zeros(12,1);
 for i=0:11
     n = 10*(2^i);
@@ -77,6 +77,7 @@ pause;
 disp("Problem 5:");
 fprintf("\tn\t|\tRelative Error\t|\tCondition Number\n");
 err = zeros(12,1);
+hm = zeros(12,1);
 for i=0:11
     n = 10*(2^i);
     h = L/n;
@@ -85,12 +86,16 @@ for i=0:11
     def = cat(1, [0], (sm\f));
     def = def*h*h*h*h/E/I;
     err(i+1) = abs((correctsin(L)-def(n+1))/correctsin(L));
+    hm(i+1) = h^2;
     fprintf("\t%d\t|\t%d\t|\t%d\n", n, err(i+1), cond(sm));
 end
 
 clf;
 semilogy(0:11, err); hold on
 title("Problem 5: R.E. of Sinusoidal Pile with 10*2^x Samples");
+pause;
+title("Problem 5: Comparing the log(error) vs log(h^2) ");
+plot(log(hm), log(err));
 
 
 pause;
